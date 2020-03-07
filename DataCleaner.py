@@ -42,6 +42,7 @@ def outputCSV(df):
             df.loc[j,['PAH']] = average
             print(df.loc[j,['PAH']])
 
+    #link to multi-variate regression
     df.to_csv("dataCleanTestOut.csv", index=False, header=False)
 
 def main():
