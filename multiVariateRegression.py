@@ -1,28 +1,53 @@
 import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn import preprocessing
-from sklearn import utils
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as seabornInstance
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+def readCSV():
+    dataSet = pd.read_csv("MultivariateInput.csv")
+    return dataSet
 
 def main():
-    dataTrain = pd.read_csv("harbourPAHtrain.csv")
-    dataTest = pd.read_csv("harbourPAHtest.csv")
-    # print df.head()
+    dataSet = readCSV()
 
-    x_train = dataTrain[['year', 'month', 'day', 'hour', 'minute']].to_numpy().reshape(-1,5)
-    y_train = dataTrain['PAH']
-    y_train = y_train.astype('int')
+    print(dataSet.describe())
 
-    x_test = dataTest[['year', 'month', 'day', 'hour', 'minute']].to_numpy().reshape(-1,5)
-    y_test = dataTest['PAH']
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute']].values
+    y = dataSet['PAH'].values
 
-    knn = KNeighborsClassifier()
-    model = knn.fit(x_train, y_train)
+    selFeat = ['year', 'month', 'day', 'hour', 'minute']
 
-    output = {'PredictedPAH': model.predict(x_test)}
-    df = pd.DataFrame(output, columns=['PredictedPAH'])
+    # plt.figure(figsize=(15, 10))
+    # plt.tight_layout()
+    # seabornInstance.distplot(dataSet['PAH'])
+    #plt.show()
 
-    df.to_csv(r'harbourPAHoutput.csv', index=True, header=True)
-    print(df)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+    regressor = LinearRegression()
+    regressor.fit(X_train, y_train)
+
+    #coefficient values for each feature in attributes
+    coeff_df = pd.DataFrame({'Coeff':regressor.coef_, "feature":selFeat})
+    print(coeff_df)
+
+    y_pred = regressor.predict(X_test)
+
+    df = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})
+    df1 = df.head(25)
+    print(df1)
+
+    df1.plot(kind='bar', figsize=(10, 8))
+    plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
+    plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+    plt.show()
+
+    print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+    print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+    print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
 
 if __name__ == "__main__":
     main()
