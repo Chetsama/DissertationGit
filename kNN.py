@@ -21,11 +21,6 @@ def main():
 
     selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24']
 
-    # plt.figure(figsize=(15, 10))
-    # plt.tight_layout()
-    # seabornInstance.distplot(dataSet['PAH'])
-    #plt.show()
-
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
     regressor = KNeighborsRegressor()
