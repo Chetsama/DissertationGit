@@ -15,10 +15,10 @@ def main():
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24']].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']].values
     y = dataSet['PAH'].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24']
+    selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()

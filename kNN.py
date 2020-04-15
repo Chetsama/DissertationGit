@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as seabornInstance
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import metrics
 
@@ -16,10 +15,10 @@ def main():
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24']].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']].values
     y = dataSet['PAH'].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24']
+    selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
