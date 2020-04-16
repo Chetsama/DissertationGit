@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInput.csv")
+    dataSet = pd.read_csv("MultivariateInputCOMPLETELYUNCLEANDATA.csv")
     return dataSet
 
 def main():
