@@ -3,7 +3,7 @@ import numpy as np
 
 
 def importCSV():
-    df = pd.read_csv("HarbourPAHDataToBeCleaned.csv", names=['year', 'month', 'day', 'hour', 'minute', 'PAH'])
+    df = pd.read_csv("HistoricTimeDataMultiTimePrediction.csv", names=['year', 'month', 'day', 'hour', 'minute', 'PAH', 'PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24'])
     return df
 
 
@@ -13,37 +13,43 @@ def outputCSV(df):
     # next = 0
     # lastIndex = 0
     startNewList = True
+
+    historyList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+
     nullList = []
     tempList = []
 
-    for index, rows in df.iterrows():
-        stop = False
-        counter = 0
-        if (pd.isnull(rows['PAH'])):
-            if startNewList:
-                startNewList = False
-                tempList = []
-                tempList.append(index)
+    for k in historyList:
+        for index, rows in df.iterrows():
+            stop = False
+            counter = 0
+            if (pd.isnull(rows[k])):
+                if startNewList:
+                    startNewList = False
+                    tempList = []
+                    tempList.append(index)
+                else:
+                    tempList.append(index)
             else:
-                tempList.append(index)
-        else:
-            if(startNewList==False):
-                if len(tempList)!=0:
-                    nullList.append(tempList)
-            startNewList = True
-    print(nullList)
+                if(startNewList==False):
+                    if len(tempList)!=0:
+                        nullList.append(tempList)
+                startNewList = True
+                tempList = []
+        print(nullList)
 
-    for i in nullList:
-        first = df.loc[i[0]-1, ['PAH']]
-        last = df.loc[i[len(i)-1]+1, ['PAH']]
-        #todo write function that replaces with interesting values
-        average = (float(first)+float(last)) /2
-        for j in i:
-            df.loc[j,['PAH']] = average
-            print(df.loc[j,['PAH']])
+        for i in nullList:
+            first = df.loc[i[0]-1, [k]]
+            last = df.loc[i[len(i)-1]+1, [k]]
+            #todo write function that replaces with interesting values
+            average = (float(first)+float(last)) /2
+            for j in i:
+                df.loc[j,[k]] = average
+                print(df.loc[j,[k]])
 
-    #link to multi-variate regression
-    df.to_csv("dataCleanTestOut.csv", index=False, header=False)
+        nullList = []
+        #link to multi-variate regression
+        df.to_csv("OUTPUTHistoricTimeData.csv", index=False, header=k)
 
 def main():
     df = importCSV()
