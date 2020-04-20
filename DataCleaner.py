@@ -3,7 +3,7 @@ import numpy as np
 
 
 def importCSV():
-    df = pd.read_csv("HistoricTimeDataMultiTimePrediction.csv", names=['year', 'month', 'day', 'hour', 'minute', 'PAH', 'PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24'])
+    df = pd.read_csv("HistoricTimeDataMultiTimePrediction.csv", names=['year', 'month', 'day', 'hour', 'minute', 'PAH', 'PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24', 'half', 'quarter'])
     return df
 
 
@@ -14,7 +14,7 @@ def outputCSV(df):
     # lastIndex = 0
     startNewList = True
 
-    historyList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+    historyList = ['half', 'quarter']
 
     nullList = []
     tempList = []

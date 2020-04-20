@@ -30,7 +30,7 @@ def main():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    regressorpoly3 = make_pipeline(PolynomialFeatures(3), Ridge())
+    regressorpoly3 = make_pipeline(PolynomialFeatures(2), Ridge())
     regressorpoly3.fit(X_train, y_train)
 
     #coefficient values for each feature in attributes

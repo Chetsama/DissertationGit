@@ -18,10 +18,10 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow]].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]].values
     y = dataSet[predictionWindow].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow]
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()
@@ -30,7 +30,7 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    regressor = make_pipeline(PolynomialFeatures(3), Ridge())
+    regressor = make_pipeline(PolynomialFeatures(5), Ridge())
     regressor.fit(X_train, y_train)
 
     y_pred = regressor.predict(X_test)
@@ -66,7 +66,7 @@ def main():
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("QDA3OutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("QDA5OutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":

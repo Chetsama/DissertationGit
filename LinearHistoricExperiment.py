@@ -16,10 +16,10 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow]].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]].values
     y = dataSet[predictionWindow].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow]
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()

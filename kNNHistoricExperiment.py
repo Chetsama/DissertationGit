@@ -10,16 +10,16 @@ def readCSV():
     dataSet = pd.read_csv("MultivariateInput.csv")
     return dataSet
 
-def LinearModel(movingAverage, historicWindow, predictionWindow, dataSet):
+def LinearModel(historicWindow, predictionWindow, dataSet):
 
     returnList = []
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow, movingAverage]].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]].values
     y = dataSet[predictionWindow].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'Celsius', historicWindow]
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()
@@ -45,7 +45,7 @@ def LinearModel(movingAverage, historicWindow, predictionWindow, dataSet):
     # print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
     # print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
     # print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
-    returnList.append(movingAverage)
+    #returnList.append(movingAverage)
     returnList.append(historicWindow)
     returnList.append(predictionWindow)
     returnList.append(metrics.mean_absolute_error(y_test, y_pred))
@@ -55,20 +55,18 @@ def LinearModel(movingAverage, historicWindow, predictionWindow, dataSet):
 
 def main():
     dataSet = readCSV()
-    df = pd.DataFrame(columns=['MovingAverage', 'HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df = pd.DataFrame(columns=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     HistoricList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1']
     PredictionList = ['PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
     movingAverage = ['MPAH-6', 'MPAH-3']
 
-    for k in movingAverage:
-        for i in HistoricList:
-            for j in PredictionList:
+    for i in HistoricList:
+        for j in PredictionList:
+            output = LinearModel(i, j, dataSet)
+            print(output)
+            df.loc[len(df)] = output
 
-                output = LinearModel(k, i, j, dataSet)
-                print(output)
-                df.loc[len(df)] = output
-
-    df.to_csv("kNNOutputResultsMovingAverage.csv", index=False, header=['MovingAverage', 'HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("kNNOutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":
