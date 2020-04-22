@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInput.csv")
+    dataSet = pd.read_csv("LinearMultivariateInput.csv")
     return dataSet
 
 def MLPR(historicWindow, predictionWindow, dataSet):
@@ -34,7 +34,7 @@ def MLPR(historicWindow, predictionWindow, dataSet):
     X_train = scaler.transform(X_train)
     X_test = scaler.transform(X_test)
 
-    mlp = MLPRegressor(hidden_layer_sizes=(16, 16, 16), max_iter=1000)
+    mlp = MLPRegressor(hidden_layer_sizes=(8, 8, 8), max_iter=1000)
     mlp.fit(X_train, y_train)
 
     y_pred = mlp.predict(X_test)
@@ -68,7 +68,7 @@ def main():
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("MLPClassifierOutputResults161616-1000.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("MLPClassifierOutputResults888-1000.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":

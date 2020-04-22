@@ -9,7 +9,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInput.csv")
+    dataSet = pd.read_csv("LinearMultivariateInput.csv")
     return dataSet
 
 def QDA(historicWindow, predictionWindow, dataSet):
