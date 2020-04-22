@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInput.csv")
+    dataSet = pd.read_csv("LinearMultivariateInput.csv")
     return dataSet
 
 def LinearModel(historicWindow, predictionWindow, dataSet):
@@ -57,7 +57,7 @@ def main():
     dataSet = readCSV()
     df = pd.DataFrame(columns=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     HistoricList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1']
-    PredictionList = ['PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+    PredictionList = ['quarter', 'half', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
     movingAverage = ['MPAH-6', 'MPAH-3']
 
     for i in HistoricList:
@@ -66,7 +66,7 @@ def main():
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("kNNOutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("LinearImputationkNNOutput.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":

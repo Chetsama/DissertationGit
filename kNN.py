@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInputCOMPLETELYUNCLEANDATA.csv")
+    dataSet = pd.read_csv("MultivariateInput.csv")
     return dataSet
 
 def main():
@@ -15,10 +15,10 @@ def main():
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']].values
-    y = dataSet['PAH'].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'Celsius','PAH-1', 'PAH']].values
+    y = dataSet['PAH+1'].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute','Celsius', 'precipIntensity', 'precipProbability', 'apparentTemperature', 'dewPoint', 'humidity', 'pressure', 'windSpeed', 'windGust', 'windBearing', 'cloudCover', 'uvIndex', 'visibility', 'ozone', 'PAH-24', 'Weekday']
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'Celsius','PAH-1', 'PAH']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
@@ -39,6 +39,13 @@ def main():
     plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
     plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
     plt.show()
+
+    df2 = pd.DataFrame(X_test)
+    df2.to_csv("pleasework.csv")
+    df3 = pd.DataFrame(y_pred)
+    df3.to_csv("pleasework2.csv")
+    df4 = pd.DataFrame(y_test)
+    df4.to_csv("pleasework3.csv")
 
     print('Confidence: ', regressor.score(X_test, y_test))
     print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))

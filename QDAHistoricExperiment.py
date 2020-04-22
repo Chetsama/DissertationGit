@@ -12,7 +12,7 @@ def readCSV():
     dataSet = pd.read_csv("MultivariateInput.csv")
     return dataSet
 
-def LinearModel(historicWindow, predictionWindow, dataSet):
+def QDA(historicWindow, predictionWindow, dataSet):
 
     returnList = []
 
@@ -30,7 +30,7 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    regressor = make_pipeline(PolynomialFeatures(5), Ridge())
+    regressor = make_pipeline(PolynomialFeatures(4), Ridge())
     regressor.fit(X_train, y_train)
 
     y_pred = regressor.predict(X_test)
@@ -58,15 +58,15 @@ def main():
     dataSet = readCSV()
     df = pd.DataFrame(columns=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     HistoricList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1']
-    PredictionList = ['PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+    PredictionList = ['quarter', 'half', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
     for i in HistoricList:
         for j in PredictionList:
 
-            output = LinearModel(i, j, dataSet)
+            output = QDA(i, j, dataSet)
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("QDA5OutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("QDA4OutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":
