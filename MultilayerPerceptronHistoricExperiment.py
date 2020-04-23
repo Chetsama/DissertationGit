@@ -17,10 +17,10 @@ def MLPR(historicWindow, predictionWindow, dataSet):
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow, 'MPAH-24', 'DayOfWeek']].values
     y = dataSet[predictionWindow].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow, 'MPAH-24', 'DayOfWeek']
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()
@@ -34,7 +34,8 @@ def MLPR(historicWindow, predictionWindow, dataSet):
     X_train = scaler.transform(X_train)
     X_test = scaler.transform(X_test)
 
-    mlp = MLPRegressor(hidden_layer_sizes=(8, 8, 8), max_iter=1000)
+    #hidden_layer_sizes=(),
+    mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=1000)
     mlp.fit(X_train, y_train)
 
     y_pred = mlp.predict(X_test)
@@ -46,6 +47,7 @@ def MLPR(historicWindow, predictionWindow, dataSet):
     # print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
     # print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
     # print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+    #returnList.append(MovingAverage)
     returnList.append(historicWindow)
     returnList.append(predictionWindow)
     returnList.append(metrics.mean_absolute_error(y_test, y_pred))
@@ -58,17 +60,16 @@ def main():
     df = pd.DataFrame(columns=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     HistoricList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1']
     PredictionList = ['quarter', 'half', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+    #MovingAverage = ['MPAH-24', 'MPAH-12', 'MPAH-6', 'DayOfWeek', 'Celsius', 'raining']
 
-
-
+    #for k in MovingAverage:
     for i in HistoricList:
         for j in PredictionList:
-
             output = MLPR(i, j, dataSet)
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("MLPClassifierOutputResults888-1000.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("MLPClassifierOutputResults100,-1000FeatureEngineeringdayofweekMPAH24.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 
 def readCSV():
-    dataSet = pd.read_csv("MultivariateInput.csv")
+    dataSet = pd.read_csv("LinearMultivariateInput.csv")
     return dataSet
 
 def LinearModel(historicWindow, predictionWindow, dataSet):
@@ -16,10 +16,10 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
 
     print(dataSet.describe())
 
-    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]].values
+    X = dataSet[['year', 'month', 'day', 'hour', 'minute', 'raining', 'PAH', historicWindow]].values
     y = dataSet[predictionWindow].values
 
-    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'PAH', historicWindow]
+    selFeat = ['year', 'month', 'day', 'hour', 'minute', 'raining', 'PAH', historicWindow]
 
     # plt.figure(figsize=(15, 10))
     # plt.tight_layout()
@@ -49,6 +49,7 @@ def LinearModel(historicWindow, predictionWindow, dataSet):
     # print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
     # print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
     # print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+    #returnList.append(MovingAverage)
     returnList.append(historicWindow)
     returnList.append(predictionWindow)
     returnList.append(metrics.mean_absolute_error(y_test, y_pred))
@@ -61,6 +62,9 @@ def main():
     df = pd.DataFrame(columns=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     HistoricList = ['PAH-24', 'PAH-12', 'PAH-6', 'PAH-3', 'PAH-1']
     PredictionList = ['quarter', 'half', 'PAH+1', 'PAH+2', 'PAH+3', 'PAH+4', 'PAH+6', 'PAH+12', 'PAH+24']
+    #MovingAverage = ['MPAH-24', 'MPAH-12', 'MPAH-6']
+
+    #for k in MovingAverage:
     for i in HistoricList:
         for j in PredictionList:
 
@@ -68,7 +72,7 @@ def main():
             print(output)
             df.loc[len(df)] = output
 
-    df.to_csv("LinearOutputResults.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
+    df.to_csv("LinearOutputResultsRaining.csv", index=False, header=['HistoricWindow', 'PredictionWindow', 'MAE', 'MSE', 'RMSE'])
     print("done")
 
 if __name__ == "__main__":
